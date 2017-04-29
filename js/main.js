@@ -4,7 +4,7 @@ import { OneOnOne } from './OneOnOne';
 
 let meetup = new OneOnOne();
 let alphabet = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'.split('');
-const total = 4;
+const total = 16;
 const time = 1500;
 
 
@@ -15,10 +15,12 @@ console.log(meetup.count());
 
 document.getElementById('output').innerHTML = meetup.htmlList();
 
-setTimeout(function() {
 
-    meetup.rotate();
-    document.getElementById('output').innerHTML = meetup.htmlList();
+
+
+rotationsDemo(meetup, time);
+
+function rotationsDemo(meetup, time) {
 
     setTimeout(function() {
 
@@ -30,11 +32,17 @@ setTimeout(function() {
             meetup.rotate();
             document.getElementById('output').innerHTML = meetup.htmlList();
 
+            setTimeout(function() {
+
+                meetup.rotate();
+                document.getElementById('output').innerHTML = meetup.htmlList();
+
+            }, time);
+
         }, time);
 
     }, time);
 
-}, time);
-
+}
 
 
