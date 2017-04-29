@@ -4,45 +4,20 @@ import { OneOnOne } from './OneOnOne';
 
 let meetup = new OneOnOne();
 let alphabet = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'.split('');
-const total = 16;
-const time = 1500;
 
+document.getElementById('action-start').addEventListener('click', function() {
+    let total = document.getElementById('count').value;
+    meetup.reset();
+    for (let i = 0; i < total; i++) {
+        meetup.addPerson(new Person(alphabet[i]));
+    }
+    document.getElementById('output').innerHTML = meetup.getHtmlList();
+    document.getElementById('info-rotations').innerText = meetup.getRotationsCount();
+});
 
-for (let i = 0; i < total; i++) {
-    meetup.add(new Person(alphabet[i]));
-}
-console.log(meetup.count());
-
-document.getElementById('output').innerHTML = meetup.htmlList();
-
-
-
-
-rotationsDemo(meetup, time);
-
-function rotationsDemo(meetup, time) {
-
-    setTimeout(function() {
-
-        meetup.rotate();
-        document.getElementById('output').innerHTML = meetup.htmlList();
-
-        setTimeout(function() {
-
-            meetup.rotate();
-            document.getElementById('output').innerHTML = meetup.htmlList();
-
-            setTimeout(function() {
-
-                meetup.rotate();
-                document.getElementById('output').innerHTML = meetup.htmlList();
-
-            }, time);
-
-        }, time);
-
-    }, time);
-
-}
-
+document.getElementById('action-rotate').addEventListener('click', function() {
+    meetup.rotate();
+    document.getElementById('output').innerHTML = meetup.getHtmlList();
+    document.getElementById('info-rotations').innerText = meetup.getRotationsCount();
+});
 
