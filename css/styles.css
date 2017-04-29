@@ -14,38 +14,28 @@
 }
 
 ul {
-  list-style-image: none;
-  list-style-type: none;
-  clear: left;
+  list-style: none;
   margin: 0;
   padding: 0;
+  display: flex;
 }
 
 .table,
 .person {
-  display: inline-block;
   text-align: center;
-  width: 50px;
   color: #fff;
-  box-sizing: border-box;
   margin: 2px;
+  padding: 2px 0;
+  flex: 1;
 }
 
 .table {
   background-color: #cc792d;
-  padding: 2px 0;
   font-size:1.5em;
 }
 
-
-.person .label {
-  display: inline-block;
-  text-align: center;
-  width: 30px;
-  height: 30px;
-  padding-top: 6px;
-  padding-left: 2px;
-  border-radius: 20px;
+.person {
+  border-radius: 10px;
   background-color: #0868cc;
-  box-sizing: border-box;
 }
+
