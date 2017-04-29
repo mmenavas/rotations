@@ -1,0 +1,13 @@
+.page-wrapper {
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+.page--header {
+  text-align: center;
+}
+.page--content {
+}
+.page--footer {
+  text-align: center;
+}
