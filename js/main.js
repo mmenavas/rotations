@@ -5,6 +5,7 @@ import { OneOnOne } from './OneOnOne';
 let meetup = new OneOnOne();
 let alphabet = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'.split('');
 const total = 4;
+const time = 1500;
 
 
 for (let i = 0; i < total; i++) {
@@ -12,14 +13,28 @@ for (let i = 0; i < total; i++) {
 }
 console.log(meetup.count());
 
-
-meetup.remove(4);
-console.log(meetup.count());
-
-
-let rotation = meetup.rotate();
-console.log(rotation);
-
-
-
 document.getElementById('output').innerHTML = meetup.htmlList();
+
+setTimeout(function() {
+
+    meetup.rotate();
+    document.getElementById('output').innerHTML = meetup.htmlList();
+
+    setTimeout(function() {
+
+        meetup.rotate();
+        document.getElementById('output').innerHTML = meetup.htmlList();
+
+        setTimeout(function() {
+
+            meetup.rotate();
+            document.getElementById('output').innerHTML = meetup.htmlList();
+
+        }, time);
+
+    }, time);
+
+}, time);
+
+
+

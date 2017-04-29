@@ -1,7 +1,6 @@
 class OneOnOne {
     constructor(_people = []) {
         this.people = _people;
-        this.states = [];
     }
 
     add(person) {
@@ -40,17 +39,15 @@ class OneOnOne {
     }
 
     rotate() {
-        let setup = [];
-        let pairs = parseInt(this.people.length / 2);
 
-        for (let i = 0; i < pairs; i++) {
-            setup.push([
-                this.people[2 * i].getFirstName(),
-                this.people[2 * i + 1].getFirstName()
-            ]);
-        }
+        let head = this.people.shift();
+        let tail = this.people.pop();
 
-        return setup;
+        this.people.unshift(tail);
+        this.people.unshift(head);
+
+        return tail;
+
     }
 
 }
