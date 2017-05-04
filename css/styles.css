@@ -57,3 +57,7 @@ ul {
   margin-bottom: 10px;
   cursor: pointer;
 }
+
+.validation-error {
+  border:2px solid #cc792d;
+}
