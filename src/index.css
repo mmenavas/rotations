@@ -1,0 +1,15 @@
+body {
+  margin: 0;
+  padding: 0;
+  font-family: sans-serif;
+}
+
+label {
+  color: #888;
+}
+
+.flex-center-block {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}

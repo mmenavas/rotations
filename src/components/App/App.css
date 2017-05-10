@@ -1,0 +1,23 @@
+.page__wrapper {
+  /*background-color: #016fb9;*/
+}
+.page__header {
+  background-color: #ff9505;
+  padding: 1em;
+}
+.page__app-name {
+  text-align: center;
+  margin: 0;
+  color: #fff;
+}
+.page__app-icon {
+  margin: 0 8px;
+}
+.page__controls {
+  margin-top: 10px;
+  padding: 10px;
+}
+.page__add-person-field {
+  width: 100%;
+  max-width: 400px;
+}

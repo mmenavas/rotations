@@ -1,0 +1,26 @@
+.layout {
+  padding: 10px;
+}
+.layout__list {
+  margin: 0;
+  padding: 0;
+  display: inline-block;
+  vertical-align: top;
+  list-style: none;
+}
+.layout__list--side-a {
+
+}
+.layout__list--side-b {
+
+}
+.layout__item {
+  font-size: 2em;
+}
+.layout__icon {
+  padding: 0 20px;
+  float:left;
+}
+.layout__person-container {
+  float:left;
+}
