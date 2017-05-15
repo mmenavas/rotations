@@ -17,6 +17,7 @@ import './App.css';
  * - Add undo capabilities.
  * - Trigger modal window when pressing reset.
  * - Remove people.
+ * - Hide reset button unless there's at least one participant.
  */
 
 class App extends Component {
@@ -90,7 +91,7 @@ class App extends Component {
     // Check if there's enough people to start the game
     if (!this.canContinue()) {
       this.setState({
-        validationMessage: "There's enough people to start the game."
+        validationMessage: "There isn't enough people to start the game."
       })
       return false;
     }
@@ -178,8 +179,8 @@ class App extends Component {
           <FormGroup className="flex-center-block">
             <ButtonToolbar>
               <Button className="action__add-person" bsStyle="primary" onClick={this.handleAddPerson}>Add Participant</Button>
-              <Button className="action__reset" bsStyle="danger" onClick={this.handleReset}>Reset</Button>
-              { this.state.roundNumber === 0 ? <Button className="action__start" bsStyle="info" onClick={this.handleStart}>Start</Button> : false }
+              { this.state.people.length > 0 ? <Button className="action__reset" bsStyle="danger" onClick={this.handleReset}>Reset</Button> : false }
+              { this.state.people.length> 3 && this.state.roundNumber === 0 ? <Button className="action__start" bsStyle="info" onClick={this.handleStart}>Start</Button> : false }
               { this.state.roundNumber > 0 ? <Button className="action__rotate" bsStyle="success" onClick={this.handleRotate}>Rotate</Button> : false }
             </ButtonToolbar>
           </FormGroup>
