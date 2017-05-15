@@ -5,6 +5,7 @@ import { FormControl } from 'react-bootstrap';
 import { FormGroup } from 'react-bootstrap';
 import { ControlLabel } from 'react-bootstrap';
 import { HelpBlock } from 'react-bootstrap';
+import { Modal } from 'react-bootstrap';
 import Layout from '../Layout/Layout';
 import './App.css';
 
@@ -15,9 +16,7 @@ import './App.css';
  * - Handle adding people with same name.
  * - Add timer.
  * - Add undo capabilities.
- * - Trigger modal window when pressing reset.
  * - Remove people.
- * - Hide reset button unless there's at least one participant.
  */
 
 class App extends Component {
@@ -28,7 +27,9 @@ class App extends Component {
     this.handleAddPerson = this.handleAddPerson.bind(this);
     this.handleKeyPress = this.handleKeyPress.bind(this);
     this.handleStart = this.handleStart.bind(this);
+    this.handleResetAttempt = this.handleResetAttempt.bind(this);
     this.handleReset = this.handleReset.bind(this);
+    this.handleHideResetModal = this.handleHideResetModal.bind(this);
     this.handleRotate = this.handleRotate.bind(this);
   }
 
@@ -39,6 +40,7 @@ class App extends Component {
       roundNumber: 0,
       statusMessage: "Add 4 or more participants. When you're ready, press start.",
       validationMessage: "",
+      showResetModal: false,
     };
   }
 
@@ -103,8 +105,16 @@ class App extends Component {
     });
   }
 
+  handleResetAttempt() {
+    this.setState({ showResetModal: true });
+  }
+
   handleReset() {
     this.setState(this.getInitialState());
+  }
+
+  handleHideResetModal() {
+    this.setState({ showResetModal: false });
   }
 
   handleRotate() {
@@ -179,7 +189,7 @@ class App extends Component {
           <FormGroup className="flex-center-block">
             <ButtonToolbar>
               <Button className="action__add-person" bsStyle="primary" onClick={this.handleAddPerson}>Add Participant</Button>
-              { this.state.people.length > 0 ? <Button className="action__reset" bsStyle="danger" onClick={this.handleReset}>Reset</Button> : false }
+              { this.state.people.length > 0 ? <Button className="action__reset" bsStyle="danger" onClick={this.handleResetAttempt}>Reset</Button> : false }
               { this.state.people.length> 3 && this.state.roundNumber === 0 ? <Button className="action__start" bsStyle="info" onClick={this.handleStart}>Start</Button> : false }
               { this.state.roundNumber > 0 ? <Button className="action__rotate" bsStyle="success" onClick={this.handleRotate}>Rotate</Button> : false }
             </ButtonToolbar>
@@ -193,6 +203,25 @@ class App extends Component {
         </div>
 
         <Layout people={this.state.people}/>
+
+        <Modal
+          {...this.props}
+          show={this.state.showResetModal}
+          onHide={this.handleHideResetModal}
+          dialogClassName="custom-modal"
+        >
+          <Modal.Header closeButton>
+            <Modal.Title id="contained-modal-title-lg">Reset Game</Modal.Title>
+          </Modal.Header>
+          <Modal.Body>
+            <h4>Are you sure you want to reset the game?</h4>
+            <p>Pressing <strong>Reset</strong> will delete every participant.</p>
+          </Modal.Body>
+          <Modal.Footer>
+            <Button onClick={this.handleHideResetModal} >Cancel</Button>
+            <Button onClick={this.handleReset} bsStyle="danger" >Reset</Button>
+          </Modal.Footer>
+        </Modal>
       </div>
     );
   }
