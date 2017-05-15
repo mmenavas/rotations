@@ -13,3 +13,16 @@ label {
   align-items: center;
   justify-content: center;
 }
+
+/**
+ * Start of Blink animation
+ */
+.blink {
+  animation: blinker 2s linear infinite;
+}
+@keyframes blinker {
+  50% { opacity: .2; }
+}
+/**
+ * End of Blink animation
+ */
