@@ -14,10 +14,12 @@ import './App.css';
  *
  * @TODO:
  * - Handle adding people with same name.
- * - Add timer.
  * - Add undo capabilities.
  * - Remove people.
+ * - Handle latecomers properly (number of rounds may no longer be n - 1).
  */
+
+let offset = null, interval = null
 
 class App extends Component {
   constructor(props) {
@@ -31,6 +33,8 @@ class App extends Component {
     this.handleReset = this.handleReset.bind(this);
     this.handleHideResetModal = this.handleHideResetModal.bind(this);
     this.handleRotate = this.handleRotate.bind(this);
+    this.handlePause = this.handlePause.bind(this);
+    this.handleResume = this.handleResume.bind(this);
   }
 
   getInitialState() {
@@ -41,6 +45,9 @@ class App extends Component {
       statusMessage: "Add 4 or more participants. When you're ready, press start.",
       validationMessage: "",
       showResetModal: false,
+      clock: 0,
+      time: '',
+      paused: false,
     };
   }
 
@@ -103,6 +110,9 @@ class App extends Component {
       roundNumber: this.state.roundNumber + 1,
       statusMessage: "Round 1 of " + (this.state.people.length - 1),
     });
+
+    this.play();
+
   }
 
   handleResetAttempt() {
@@ -140,11 +150,21 @@ class App extends Component {
         people.slice((people.length + 1) / 2, people.length)
       ),
       roundNumber: this.state.roundNumber + 1,
-      statusMessage: "Round " + (this.state.roundNumber + 1) + " of " + (this.state.people.length - 1)
+      statusMessage: "Round " + (this.state.roundNumber + 1) + " of " + (this.state.people.length - 1),
     });
 
+    this.reset();
+    this.play();
 
     return true;
+  }
+
+  handlePause() {
+    this.pause();
+  }
+
+  handleResume() {
+    this.play();
   }
 
   canContinue() {
@@ -163,8 +183,63 @@ class App extends Component {
     return enoughPeople;
   }
 
+  // Timer functions
+
+  play() {
+    if (!interval) {
+      offset = Date.now();
+      interval = setInterval(this.update.bind(this), 1000);
+      this.setState({paused: false});
+    }
+  }
+
+  pause() {
+    if (interval) {
+      clearInterval(interval);
+      interval = null;
+    }
+    this.setState({paused: true});
+  }
+
+  reset() {
+    let clockReset = 0;
+    this.setState({clock: clockReset });
+    let time = this.secondsToHms(clockReset / 1000);
+    this.setState({time: time });
+  }
+
+  update() {
+    let clock = this.state.clock;
+    clock += this.calculateOffset();
+    this.setState({clock: clock });
+    let time = this.secondsToHms(clock / 1000);
+    this.setState({time: time });
+  }
+
+  calculateOffset() {
+    let now = Date.now();
+    let newOffset = now - offset;
+    offset = now;
+    return newOffset
+  }
+
+  secondsToHms(totalSeconds) {
+    let hours   = Math.floor(totalSeconds / 3600);
+    let minutes = Math.floor((totalSeconds - (hours * 3600)) / 60);
+    let seconds = totalSeconds - (hours * 3600) - (minutes * 60);
+
+    // round seconds
+    seconds = Math.round(seconds);
+
+    let result = (hours < 10 ? "0" + hours : hours);
+    result += ":" + (minutes < 10 ? "0" + minutes : minutes);
+    result += ":" + (seconds  < 10 ? "0" + seconds : seconds);
+    return result;
+  }
+
   render() {
     let validationStatus = null;
+
     if (this.state.validationMessage !== "") {
       validationStatus = "error";
     }
@@ -198,10 +273,22 @@ class App extends Component {
 
         <div id="page__app-state app-state">
           <div className="app-state__msg flex-center-block">
-            <span className="blink">{this.state.statusMessage}</span>
+            <div className="text-center">
+              <div className={this.state.roundNumber === 0 ? "blink" : ""}>
+                <h4>{this.state.statusMessage}</h4>
+              </div>
+              <div className={this.state.roundNumber === 0 ? "hide" : "timer"}>
+                <div className="flex-center-block">
+                  <h2 className="timer__time">{this.state.time === '' ? "00:00:00" : this.state.time}</h2>
+                  <ButtonToolbar>
+                    { this.state.paused ? <Button className="action__resume" bsStyle="info" onClick={this.handleResume}><i className="fa fa-play" aria-hidden="true"></i></Button> : false }
+                    { !this.state.paused ? <Button className="action__pause" bsStyle="" onClick={this.handlePause}><i className="fa fa-pause" aria-hidden="true"></i></Button> : false }
+                  </ButtonToolbar>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
-
         <Layout people={this.state.people}/>
 
         <Modal

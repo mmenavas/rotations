@@ -24,3 +24,7 @@
 .page__app-state {
 
 }
+
+.timer__time {
+  margin: 10px;
+}
