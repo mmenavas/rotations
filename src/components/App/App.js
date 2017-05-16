@@ -120,6 +120,8 @@ class App extends Component {
   }
 
   handleReset() {
+    this.pause();
+    this.reset();
     this.setState(this.getInitialState());
   }
 
@@ -153,6 +155,7 @@ class App extends Component {
       statusMessage: "Round " + (this.state.roundNumber + 1) + " of " + (this.state.people.length - 1),
     });
 
+    this.pause();
     this.reset();
     this.play();
 
