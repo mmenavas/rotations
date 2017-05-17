@@ -2,7 +2,7 @@
   "name": "rotations",
   "version": "0.1.0",
   "private": true,
-  "homepage": "https://rotationsapp.com",
+  "homepage": "http://rotationsapp.com",
   "dependencies": {
     "react": "^15.5.4",
     "react-bootstrap": "^0.31.0",
