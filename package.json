@@ -1,8 +1,8 @@
 {
-  "name": "rotations-react",
+  "name": "rotations",
   "version": "0.1.0",
   "private": true,
-  "homepage": "https://1-on-1conversations.github.io/rotations",
+  "homepage": "https://rotationsapp.com",
   "dependencies": {
     "react": "^15.5.4",
     "react-bootstrap": "^0.31.0",
