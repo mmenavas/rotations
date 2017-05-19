@@ -56,10 +56,32 @@ class App extends Component {
   }
 
   handleAddPerson(event) {
+
+    ////////////////////
+    // Validate input //
+    ////////////////////
+
+    // Name can't be empty.
     if (this.state.newPerson === '') {
       this.setState({ validationMessage: "Enter a valid name." })
       return false;
     }
+
+    // Reject duplicate names
+    let isDuplicate = false;
+    this.state.people.forEach((person) => {
+      if (this.state.newPerson.toUpperCase() === person.name.toUpperCase()) {
+        isDuplicate = true;
+      }
+    });
+    if (isDuplicate) {
+      this.setState({ validationMessage: "'" + this.state.newPerson + "' already exists. You may add a last name initial to make it different." })
+      return false;
+    }
+
+    ////////////////////
+    // Add new person //
+    ////////////////////
 
     let people = this.state.people;
     let newPerson = {
@@ -285,7 +307,7 @@ class App extends Component {
                   <h2 className="timer__time">{this.state.time === '' ? "00:00:00" : this.state.time}</h2>
                   <ButtonToolbar>
                     { this.state.paused ? <Button className="action__resume" bsStyle="info" onClick={this.handleResume}><i className="fa fa-play" aria-hidden="true"></i></Button> : false }
-                    { !this.state.paused ? <Button className="action__pause" bsStyle="" onClick={this.handlePause}><i className="fa fa-pause" aria-hidden="true"></i></Button> : false }
+                    { !this.state.paused ? <Button className="action__pause" onClick={this.handlePause}><i className="fa fa-pause" aria-hidden="true"></i></Button> : false }
                   </ButtonToolbar>
                 </div>
               </div>
